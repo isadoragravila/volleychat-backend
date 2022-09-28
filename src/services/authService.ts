@@ -35,7 +35,7 @@ function encryptPassword(password: string) {
 export async function loginUser(username: string, password: string) {
     const user = await checkUsernameAndPassword(username, password);
 
-    const token = generateToken(user.id, user.image);
+    const token = generateToken(user.id);
 
     return { token };
 }
@@ -51,11 +51,18 @@ async function checkUsernameAndPassword(username: string, password: string) {
     return user;
 }
 
-function generateToken(id: number, image: string) {
-    const data = { id, image };
+function generateToken(id: number) {
+    const data = { id };
     const SECRET = process.env.JWT_SECRET || "";
     const EXPIRES_IN = Number(process.env.TOKEN_EXPIRES_IN);
     const options = { expiresIn: EXPIRES_IN };
 
     return jwt.sign(data, SECRET, options);
+}
+
+export async function findUserById(id: number) {
+    const user = await authRepository.findById(id);
+    if (!user) throw { code: "notfound_error", message: "User not found" };
+
+    return user;
 }

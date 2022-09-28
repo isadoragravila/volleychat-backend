@@ -20,3 +20,10 @@ export async function insert(userData: IRegisterData) {
         data: userData
     });
 }
+
+export async function findById(id: number) {
+    const user = await prisma.users.findUnique({
+        where: { id }
+    });
+    return user;
+}
