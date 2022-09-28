@@ -1,4 +1,4 @@
-import { IRegisterData } from "../types/authTypes";
+import { IProfileData, IRegisterData } from "../types/authTypes";
 import * as authRepository from "../repositories/authRepository";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -61,8 +61,11 @@ function generateToken(id: number) {
 }
 
 export async function findUserById(id: number) {
-    const user = await authRepository.findById(id);
-    if (!user) throw { code: "notfound_error", message: "User not found" };
+    const existingUser = await authRepository.findById(id);
+    if (!existingUser) throw { code: "notfound_error", message: "User not found" };
+    const user: IProfileData = { ...existingUser };
+
+    delete user.password;
 
     return user;
 }
