@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { sendProfileInfo } from "../controllers/userController";
+import { getCategories } from "../controllers/categoryController";
 import validateToken from "../middlewares/tokenValidator";
 
 const router = Router();
 
-router.get('/profile', validateToken, sendProfileInfo);
+router.get('/categories', validateToken, getCategories);
 
 export default router;
