@@ -11,19 +11,35 @@ datasource db {
 }
 
 model Users {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  email    String @unique
-  password String
-  image    String
-  bio      String @db.VarChar(150)
+  id        Int         @id @default(autoincrement())
+  username  String      @unique
+  email     String      @unique
+  password  String
+  image     String
+  bio       String      @db.VarChar(150)
+  chatrooms Chatrooms[]
 
   @@map("users")
 }
 
 model Categories {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  chatrooms Chatrooms[]
 
   @@map("categories")
+}
+
+model Chatrooms {
+  id          Int        @id @default(autoincrement())
+  title       String     @db.VarChar(30)
+  description String
+  private     Boolean    @default(false)
+  category    Categories @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  creator     Users      @relation(fields: [creatorId], references: [id])
+  creatorId   Int
+  createdAt   DateTime   @default(now()) @db.Timestamp(6)
+
+  @@map("chatrooms")
 }
