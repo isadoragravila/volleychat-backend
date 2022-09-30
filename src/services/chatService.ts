@@ -1,6 +1,10 @@
 import * as chatRepository from "../repositories/chatRepository";
 import * as categoryRepository from "../repositories/categoryRepository";
 import { IChatData } from "../types/chatTypes";
+import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 export async function createChat(chatData: IChatData) {
     await checkCategory(chatData.categoryId);
@@ -18,7 +22,14 @@ export async function checkCategory(id: number) {
 export async function getChats(categoryId: number) {
     await checkCategory(categoryId);
 
-    const chatrooms = await chatRepository.findByCategoryId(categoryId);
+    const result = await chatRepository.findByCategoryId(categoryId);
 
-    return chatrooms;
+    const chats = result?.chatrooms.map(item => {
+        return {
+            ...item,
+            fromNow: dayjs(item.createdAt).fromNow()
+        }
+    });
+
+    return { ...result, chatrooms: chats }
 }
