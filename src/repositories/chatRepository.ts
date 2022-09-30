@@ -10,7 +10,13 @@ export async function insert(chatData: IChatData) {
 export async function findByCategoryId(categoryId: number) {
     const chatrooms = await prisma.categories.findUnique({
         where: { id: categoryId },
-        include: { chatrooms: true }
+        include: { 
+            chatrooms: {
+                orderBy: {
+                    createdAt: "desc"
+                }
+            }
+        }
     });
     return chatrooms;
 }
