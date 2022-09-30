@@ -19,6 +19,7 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
 
         const user = await authService.findUserById(id);
 
+        res.locals.userId = id;
         res.locals.user = user;
 
         next();
