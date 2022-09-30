@@ -11,3 +11,11 @@ export async function createChat(req: Request, res: Response) {
     
     res.status(201).send(result);
 }
+
+export async function getChats (req: Request, res: Response) {
+    const { categoryId } = req.params;
+
+    const result = await chatService.getChats(Number(categoryId));
+
+    res.status(200).send(result);
+}

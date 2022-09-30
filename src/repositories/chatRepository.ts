@@ -6,3 +6,11 @@ export async function insert(chatData: IChatData) {
         data: chatData
     });
 }
+
+export async function findByCategoryId(categoryId: number) {
+    const chatrooms = await prisma.categories.findUnique({
+        where: { id: categoryId },
+        include: { chatrooms: true }
+    });
+    return chatrooms;
+}

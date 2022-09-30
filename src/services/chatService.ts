@@ -14,3 +14,11 @@ export async function checkCategory(id: number) {
     const category = await categoryRepository.findById(id);
     if (!category) throw { code: "notfound_error", message: "Category not found" };
 }
+
+export async function getChats(categoryId: number) {
+    await checkCategory(categoryId);
+
+    const chatrooms = await chatRepository.findByCategoryId(categoryId);
+
+    return chatrooms;
+}
