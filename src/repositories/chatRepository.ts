@@ -20,3 +20,9 @@ export async function findByCategoryId(categoryId: number) {
     });
     return chatrooms;
 }
+
+export async function findById(id: number) {
+    return await prisma.chatrooms.findUnique({
+        where: { id }
+    })
+}

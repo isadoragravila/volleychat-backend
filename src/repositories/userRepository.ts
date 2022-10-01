@@ -6,3 +6,9 @@ export async function findById(id: number) {
     });
     return user;
 }
+
+export async function insertParticipant(userId:number, chatroomId: number) {
+    await prisma.participants.create({ 
+        data: { userId, chatroomId }
+    })
+}
