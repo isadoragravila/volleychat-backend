@@ -15,7 +15,9 @@ export async function findUserById(id: number) {
 export async function enterChat(userId: number, chatroomId: number) {
     await checkChatroomId(chatroomId);
 
-    await checkUserIdIntoChatroom(userId, chatroomId);
+    const participant = await checkUserIdIntoChatroom(userId, chatroomId);
+
+    if (participant) throw { code: "conflict_error", message: "User is already a member of this chatroom" };
 
     await userRepository.insertParticipant(userId, chatroomId);
 
@@ -29,7 +31,8 @@ async function checkChatroomId(id: number) {
 
 async function checkUserIdIntoChatroom(userId: number, chatroomId: number) {
     const participant = await userRepository.findByUserId(userId, chatroomId);
-    if (participant) throw { code: "conflict_error", message: "User is already a member of this chatroom" };
+
+    return participant;
 }
 
 export async function getParticipants(chatroomId: number) {
@@ -44,4 +47,16 @@ export async function getParticipants(chatroomId: number) {
     })
 
     return participants;
+}
+
+export async function removeParticipant(userId: number, chatroomId: number) {
+    await checkChatroomId(chatroomId);
+
+    const participant = await checkUserIdIntoChatroom(userId, chatroomId);
+
+    if (!participant) throw { code: "notfound_error", message: "User isn't in this chatroom" };
+
+    await userRepository.removeParticipant(userId, chatroomId);
+
+    return "Left chat";
 }

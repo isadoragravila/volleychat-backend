@@ -34,3 +34,9 @@ export async function findByChatroomId(chatroomId: number) {
 
     return participants;
 }
+
+export async function removeParticipant(userId:number, chatroomId: number) {
+    await prisma.participants.deleteMany({
+        where: { userId, chatroomId }
+    });
+}

@@ -24,3 +24,12 @@ export async function getParticipants(req: Request, res: Response) {
 
     res.status(200).send(result);
 }
+
+export async function removeParticipant(req: Request, res: Response) {
+    const userId = res.locals.userId;
+    const { chatroomId } = req.params;
+
+    const result = await userService.removeParticipant(Number(userId),Number(chatroomId));
+
+    res.status(200).send(result);
+}
