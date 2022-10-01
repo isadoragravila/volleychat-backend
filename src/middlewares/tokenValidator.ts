@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import * as authService from '../services/authService';
+import * as userService from '../services/userService';
 
 interface IJwtPayload {
     id: number,
@@ -17,7 +17,7 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
     try {
         const { id } = jwt.verify(token, SECRET) as IJwtPayload;
 
-        const user = await authService.findUserById(id);
+        const user = await userService.findUserById(id);
 
         res.locals.userId = id;
         res.locals.user = user;

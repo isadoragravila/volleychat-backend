@@ -59,13 +59,3 @@ function generateToken(id: number) {
 
     return jwt.sign(data, SECRET, options);
 }
-
-export async function findUserById(id: number) {
-    const existingUser = await authRepository.findById(id);
-    if (!existingUser) throw { code: "notfound_error", message: "User not found" };
-    const user: IProfileData = { ...existingUser };
-
-    delete user.password;
-
-    return user;
-}
