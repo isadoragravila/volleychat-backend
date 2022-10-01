@@ -11,13 +11,15 @@ datasource db {
 }
 
 model Users {
-  id        Int         @id @default(autoincrement())
-  username  String      @unique
-  email     String      @unique
-  password  String
-  image     String
-  bio       String      @db.VarChar(150)
-  chatrooms Chatrooms[]
+  id           Int            @id @default(autoincrement())
+  username     String         @unique
+  email        String         @unique
+  password     String
+  image        String
+  bio          String         @db.VarChar(150)
+  chatrooms    Chatrooms[]
+  messages     Messages[]
+  participants Participants[]
 
   @@map("users")
 }
@@ -31,15 +33,39 @@ model Categories {
 }
 
 model Chatrooms {
-  id          Int        @id @default(autoincrement())
-  title       String     @db.VarChar(30)
-  description String
-  private     Boolean    @default(false)
-  category    Categories @relation(fields: [categoryId], references: [id])
-  categoryId  Int
-  creator     Users      @relation(fields: [creatorId], references: [id])
-  creatorId   Int
-  createdAt   DateTime   @default(now()) @db.Timestamp(6)
+  id           Int            @id @default(autoincrement())
+  title        String         @db.VarChar(30)
+  description  String
+  private      Boolean        @default(false)
+  category     Categories     @relation(fields: [categoryId], references: [id])
+  categoryId   Int
+  creator      Users          @relation(fields: [creatorId], references: [id])
+  creatorId    Int
+  createdAt    DateTime       @default(now()) @db.Timestamp(6)
+  messages     Messages[]
+  participants Participants[]
 
   @@map("chatrooms")
+}
+
+model Messages {
+  id         Int       @id @default(autoincrement())
+  content    String
+  chatroom   Chatrooms @relation(fields: [chatroomId], references: [id])
+  chatroomId Int
+  user       Users     @relation(fields: [userId], references: [id])
+  userId     Int
+  createdAt  DateTime  @default(now()) @db.Timestamp(6)
+
+  @@map("messages")
+}
+
+model Participants {
+  id         Int       @id @default(autoincrement())
+  user       Users     @relation(fields: [userId], references: [id])
+  userId     Int
+  chatroom   Chatrooms @relation(fields: [chatroomId], references: [id])
+  chatroomId Int
+
+  @@map("participants")
 }
