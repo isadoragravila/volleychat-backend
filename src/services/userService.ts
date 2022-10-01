@@ -42,7 +42,8 @@ export async function getParticipants(chatroomId: number) {
 
     const participants = result.map(item => {
         return {
-            user: item.user.username
+            id: item.user.id,
+            name: item.user.username
         }
     })
 

@@ -26,6 +26,7 @@ export async function findByChatroomId(chatroomId: number) {
         select: {
             user: {
                 select: {
+                    id: true,
                     username: true
                 }
             }
