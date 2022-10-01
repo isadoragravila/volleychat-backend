@@ -9,9 +9,9 @@ dayjs.extend(relativeTime);
 export async function createChat(chatData: IChatData) {
     await checkCategory(chatData.categoryId);
 
-    await chatRepository.insert(chatData);
+    const chat = await chatRepository.insert(chatData);
 
-    return "Chatroom successfully created!";
+    return chat;
 }
 
 export async function checkCategory(id: number) {
