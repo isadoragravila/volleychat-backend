@@ -14,5 +14,13 @@ export async function enterChat(req: Request, res: Response) {
 
     const result = await userService.enterChat(Number(userId), Number(chatroomId));
 
+    res.status(201).send(result);
+}
+
+export async function getParticipants(req: Request, res: Response) {
+    const { chatroomId } = req.params;
+
+    const result = await userService.getParticipants(Number(chatroomId));
+
     res.status(200).send(result);
 }
