@@ -33,3 +33,10 @@ export async function getChats(categoryId: number) {
 
     return { ...result, chatrooms: chats }
 }
+
+export async function getChatName(chatId: number) {
+    const chatroom = await chatRepository.findById(chatId);
+    if (!chatroom) throw { code: "notfound_error", message: "Chatroom not found" };
+
+    return { name: chatroom.title }
+}

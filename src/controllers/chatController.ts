@@ -19,3 +19,11 @@ export async function getChats (req: Request, res: Response) {
 
     res.status(200).send(result);
 }
+
+export async function getChatName (req: Request, res: Response) {
+    const { chatId } = req.params;
+
+    const result = await chatService.getChatName(Number(chatId));
+
+    res.status(200).send(result);
+}
