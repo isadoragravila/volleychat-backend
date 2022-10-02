@@ -6,3 +6,26 @@ export async function insert(messageData: IMessageData) {
         data: messageData
     });
 }
+
+export async function findByChatId(chatroomId: number) {
+    const messages = await prisma.chatrooms.findUnique({
+        where: { id: chatroomId },
+        select: { 
+            id: true,
+            title: true,
+            messages: {
+                orderBy: {
+                    createdAt: "desc"
+                },
+                include: {
+                    user: {
+                        select: {
+                            username: true
+                        }
+                    }
+                }
+            }
+        }
+    });
+    return messages;
+}

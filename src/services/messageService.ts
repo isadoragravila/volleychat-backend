@@ -14,3 +14,13 @@ async function checkChatroomId(id: number) {
     const chatroom = await chatRepository.findById(id);
     if (!chatroom) throw { code: "notfound_error", message: "Chatroom not found" };
 }
+
+export async function getMessages(chatroomId: number, userId: number) {
+    await checkChatroomId(chatroomId);
+
+    const result = await messageRepository.findByChatId(chatroomId);
+
+    const messages = { userId, ...result }
+
+    return messages;
+}
