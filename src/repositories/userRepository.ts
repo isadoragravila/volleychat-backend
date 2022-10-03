@@ -7,9 +7,9 @@ export async function findById(id: number) {
     return user;
 }
 
-export async function insertParticipant(userId:number, chatroomId: number) {
+export async function insertParticipant(userId:number, chatroomId: number, lastStatus: number) {
     await prisma.participants.create({ 
-        data: { userId, chatroomId }
+        data: { userId, chatroomId, lastStatus }
     })
 }
 
@@ -40,4 +40,11 @@ export async function removeParticipant(userId:number, chatroomId: number) {
     await prisma.participants.deleteMany({
         where: { userId, chatroomId }
     });
+}
+
+export async function update(id: number, lastStatus: number) {
+    await prisma.participants.update({ 
+        where: { id },
+        data: { lastStatus }
+    })
 }

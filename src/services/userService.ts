@@ -19,7 +19,9 @@ export async function enterChat(userId: number, chatroomId: number) {
 
     if (participant) throw { code: "conflict_error", message: "User is already a member of this chatroom" };
 
-    await userRepository.insertParticipant(userId, chatroomId);
+    const lastStatus = Date.now();
+
+    await userRepository.insertParticipant(userId, chatroomId, lastStatus);
 
     return "Entered chat";
 }
@@ -60,4 +62,18 @@ export async function removeParticipant(userId: number, chatroomId: number) {
     await userRepository.removeParticipant(userId, chatroomId);
 
     return "Left chat";
+}
+
+export async function updateStatus(userId: number, chatroomId: number) {
+    await checkChatroomId(chatroomId);
+
+    const participant = await checkUserIdIntoChatroom(userId, chatroomId);
+
+    if (!participant) throw { code: "notfound_error", message: "User isn't in this chatroom" };
+
+    const lastStatus = Date.now();
+
+    await userRepository.update(participant.id, lastStatus);
+
+    return "Updated status";
 }

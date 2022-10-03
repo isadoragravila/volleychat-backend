@@ -33,3 +33,12 @@ export async function removeParticipant(req: Request, res: Response) {
 
     res.status(200).send(result);
 }
+
+export async function updateStatus(req: Request, res: Response) {
+    const userId = res.locals.userId;
+    const { chatroomId } = req.params;
+
+    const result = await userService.updateStatus(Number(userId),Number(chatroomId));
+
+    res.status(200).send(result);
+}
