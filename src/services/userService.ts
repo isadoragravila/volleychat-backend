@@ -13,6 +13,8 @@ export async function findUserById(id: number) {
 }
 
 export async function enterChat(userId: number, chatroomId: number) {
+    await removeByLastStatus();
+    
     await checkChatroomId(chatroomId);
 
     const participant = await checkUserIdIntoChatroom(userId, chatroomId);
