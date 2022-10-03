@@ -38,6 +38,8 @@ async function checkUserIdIntoChatroom(userId: number, chatroomId: number) {
 }
 
 export async function getParticipants(chatroomId: number) {
+    await removeByLastStatus();
+    
     await checkChatroomId(chatroomId);
 
     const result = await userRepository.findByChatroomId(chatroomId);
@@ -76,4 +78,10 @@ export async function updateStatus(userId: number, chatroomId: number) {
     await userRepository.update(participant.id, lastStatus);
 
     return "Updated status";
+}
+
+async function removeByLastStatus() {
+    const time = Date.now() - 10000;
+
+    await userRepository.removeByLastStatus(time); 
 }

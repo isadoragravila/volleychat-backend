@@ -48,3 +48,10 @@ export async function update(id: number, lastStatus: number) {
         data: { lastStatus }
     })
 }
+
+export async function removeByLastStatus(time: number) {
+    const deleted = await prisma.participants.deleteMany({
+        where: { lastStatus: { lte: time } }
+    });
+    return deleted;
+}
