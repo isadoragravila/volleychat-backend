@@ -66,6 +66,7 @@ model Participants {
   userId     Int
   chatroom   Chatrooms @relation(fields: [chatroomId], references: [id])
   chatroomId Int
+  lastStatus BigInt
 
   @@map("participants")
 }
