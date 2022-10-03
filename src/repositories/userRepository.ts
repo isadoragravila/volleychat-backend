@@ -23,6 +23,11 @@ export async function findByUserId(userId: number, chatroomId: number) {
 export async function findByChatroomId(chatroomId: number) {
     const participants = await prisma.participants.findMany({
         where: { chatroomId },
+        orderBy: {
+            user: {
+                username: 'asc'
+            }
+        },
         select: {
             user: {
                 select: {
