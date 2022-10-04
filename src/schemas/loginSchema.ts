@@ -2,8 +2,8 @@ import joi from 'joi';
 import { ILoginData } from '../types/authTypes';
 
 const authSchema = joi.object<ILoginData>({
-    username: joi.string().pattern(/^[a-zA-Z0-9._-]*$/).required(),
-    password: joi.string().min(8).pattern(/^\S*$/).required()
-  });
+  username: joi.string().required().label("username is required"),
+  password: joi.string().required().label("password is required"),
+});
 
-  export default authSchema;
+export default authSchema;
