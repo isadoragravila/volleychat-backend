@@ -82,7 +82,7 @@ export async function updateStatus(userId: number, chatroomId: number) {
     return "Updated status";
 }
 
-async function removeByLastStatus() {
+export async function removeByLastStatus() {
     const time = Date.now() - 10000;
 
     await userRepository.removeByLastStatus(time); 
