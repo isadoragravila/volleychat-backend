@@ -34,11 +34,11 @@ Está acontecendo um jogo neste momento? Crie uma sala e ou entre em uma para co
     - **Request:** body no formato:
     ```json
     {
-    "username": "mariasilva", //string
-    "email": "maria@email.com", //string
-    "password": "1234567890", //string (min 8 dígitos)
-    "image": "https://thumbs.dreamstime.com/b/%C3%ADcone-no-estilo-liso-do-usu%C3%A1rio-da-pessoa-para-site-ilustra%C3%A7%C3%A3o-vetor-129831161.jpg", //string (url)
-    "bio": "descrição sobre o usuário" //string
+        "username": "mariasilva", //string
+        "email": "maria@email.com", //string
+        "password": "1234567890", //string (min 8 dígitos)
+        "image": "https://thumbs.dreamstime.com/b/%C3%ADcone-no-estilo-liso-do-usu%C3%A1rio-da-pessoa-para-site-ilustra%C3%A7%C3%A3o-vetor-129831161.jpg", //string (url)
+        "bio": "descrição sobre o usuário" //string
     }
     ```
     - StatusCodes:
@@ -68,6 +68,8 @@ Está acontecendo um jogo neste momento? Crie uma sala e ou entre em uma para co
 
 ### Rotas autenticadas
 
+Todas as rotas devem enviar um token de autenticação no formato:
+
     Headers: { "Authorization": "Bearer $token" }
 
 - #### Rota: GET ```/categories```
@@ -92,6 +94,23 @@ Está acontecendo um jogo neste momento? Crie uma sala e ou entre em uma para co
             "name": "men's beach volleyball"
         }
     ]
+    ```
+    - **StatusCodes**:
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token).
+
+- #### Rota: GET ```/profile```
+    - **Função**: Envia informações de perfil do usuário;
+    - **Retorno:**
+    ```json
+    {
+        "id": 1,
+        "username": "mariasilva", 
+        "email": "maria@email.com", 
+        "image": "https://thumbs.dreamstime.com/b/%C3%ADcone-no-estilo-liso-do-usu%C3%A1rio-da-pessoa-para-site-ilustra%C3%A7%C3%A3o-vetor-129831161.jpg",
+        "bio": "descrição sobre o usuário" 
+    }
     ```
     - **StatusCodes**:
         - 200: sucesso;
@@ -129,7 +148,7 @@ Está acontecendo um jogo neste momento? Crie uma sala e ou entre em uma para co
         - 422: erro no formato do body.
 
 - #### Rota: GET ```/chats/:categoryId```
-    - **Função**: Busca salas de bate-papo por categoria;
+    - **Função**: Busca salas de bate-papo por categoria em ordem descendente de data de criação;
     - **Retorno:**
     ```json
         {
@@ -152,7 +171,115 @@ Está acontecendo um jogo neste momento? Crie uma sala e ou entre em uma para co
     - **StatusCodes**:
         - 200: sucesso;
         - 401: token inválido;
-        - 404: usuário não encontrado (verificação do token).
+        - 404: usuário não encontrado (verificação do token)ou categoria não encontrada.
+    - **OBS**: executa checagem de status das salas de bate-papo, removendo das salas usuários que não atualizaram seus status.
+
+- #### Rota: POST ```/messages/:chatroomId```
+    - **Função**: Envio de mensagens;
+    - **Request:** body no formato:
+    ```json
+        {
+            "content": "Olá!"
+        }
+    ```
+    - **Retorno:**
+    ```json
+        {
+            "id": 1,
+            "content": "Olá",
+            "chatroomId": 1,
+            "userId": 1,
+            "createdAt": "2022-10-05T22:28:18.413Z"
+        }
+    ```
+    - **StatusCodes**:
+        - 201: sucesso na criação;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou sala de bate-papo não encontrada;
+        - 422: erro no formato do body.
+
+- #### Rota: GET ```/messages/:chatroomId```
+    - **Função**: Busca mensagens por sala de bate-papo em ordem descendente de data de criação;
+    - **Retorno:**
+    ```json
+        {
+            "userId": 1,
+            "id": 1,
+            "title": "Brasil x Itália",
+            "messages": [
+                {
+                    "id": 2,
+                    "content": "tudo bem",
+                    "chatroomId": 1,
+                    "userId": 1,
+                    "createdAt": "2022-10-05T22:49:21.066Z",
+                    "user": {
+                        "username": "mariasilva"
+                    }
+                },
+                {
+                    "id": 1,
+                    "content": "Olá",
+                    "chatroomId": 1,
+                    "userId": 1,
+                    "createdAt": "2022-10-05T22:28:18.413Z",
+                    "user": {
+                        "username": "mariasilva"
+                    }
+                }
+            ]
+        }
+    ```
+    - **StatusCodes**:
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou sala de bate-papo não encontrada.
+
+- #### Rota: POST ```/participants/:chatroomId```
+    - **Função**: Insere usuário na sala de bate-papo;
+    - **StatusCodes**:
+        - 201: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou sala de bate-papo não encontrada;
+        - 409: usuário já é um participante da sala.
+    - **OBS**: executa checagem de status das salas de bate-papo, removendo das salas usuários que não atualizaram seus status.
+
+- #### Rota: DELETE ```/participants/:chatroomId```
+    - **Função**: Remove usuário da sala de bate-papo;
+    - **StatusCodes**:
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou sala de bate-papo não encontrada;
+        - 404: usuário não é um participante da sala.
+
+- #### Rota: PATCH ```/participants/:chatroomId/status```
+    - **Função**: Atualiza status do usuário, para mantê-lo logado na sala;
+    - **StatusCodes**:
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou sala de bate-papo não encontrada;
+        - 404: usuário não é um participante da sala.
+
+- #### Rota: GET ```/participants/:chatroomId```
+    - **Função**: Lista todos os participantes da sala de bate-papo;
+    - **Retorno:**
+    ```json
+        [
+            {
+                "id": 1,
+                "name": "mariasilva"
+            },
+                        {
+                "id": 2,
+                "name": "joaosouza"
+            }
+        ]
+    ```
+    - **StatusCodes**:
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou sala de bate-papo não encontrada;
+    - **OBS**: executa checagem de status das salas de bate-papo, removendo das salas usuários que não atualizaram seus status.
 
 ***
 ## 🏁 Rodando a aplicação
