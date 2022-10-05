@@ -7,7 +7,7 @@ import messageSchema from "../schemas/messageSchema";
 const router = Router();
 
 router.use(validateToken);
-router.post('/messages/:chatroomId', validateSchema(messageSchema), createMessage);
-router.get('/messages/:chatroomId', getMessages);
+router.post("/messages/:chatroomId", validateSchema(messageSchema), createMessage);
+router.get("/messages/:chatroomId", getMessages);
 
 export default router;

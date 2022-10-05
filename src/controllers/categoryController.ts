@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import * as categoryService from '../services/categoryService';
+import { Request, Response } from "express";
+import * as categoryService from "../services/categoryService";
 
 export async function getCategories(req: Request, res: Response) {
 
-    const result = await categoryService.getCategories();
+	const result = await categoryService.getCategories();
     
-    res.status(200).send(result);
+	res.status(200).send(result);
 }

@@ -6,7 +6,7 @@ import loginSchema from "../schemas/loginSchema";
 
 const router = Router();
 
-router.post('/sign-up', validateSchema(registerSchema), registerUser);
-router.post('/sign-in', validateSchema(loginSchema), loginUser);
+router.post("/sign-up", validateSchema(registerSchema), registerUser);
+router.post("/sign-in", validateSchema(loginSchema), loginUser);
 
 export default router;

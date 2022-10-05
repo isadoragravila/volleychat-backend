@@ -4,4 +4,4 @@ export type IMessageSchema = {
     content: string
 }
 
-export type IMessageData = Omit<Messages, 'id' | 'createdAt'>
+export type IMessageData = Omit<Messages, "id" | "createdAt">

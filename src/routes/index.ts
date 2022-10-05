@@ -1,6 +1,6 @@
 import { Router } from "express";
-import authRouter from './authRouter';
-import userRouter from './userRouter';
+import authRouter from "./authRouter";
+import userRouter from "./userRouter";
 import categoryRouter from "./categoryRouter";
 import chatRouter from "./chatRouter";
 import messageRouter from "./messageRouter";

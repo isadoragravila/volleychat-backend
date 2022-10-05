@@ -4,6 +4,6 @@ import validateToken from "../middlewares/tokenValidator";
 
 const router = Router();
 
-router.get('/categories', validateToken, getCategories);
+router.get("/categories", validateToken, getCategories);
 
 export default router;

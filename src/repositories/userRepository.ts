@@ -1,62 +1,62 @@
-import { prisma } from '../databases/database';
+import { prisma } from "../databases/database";
 
 export async function findById(id: number) {
-    const user = await prisma.users.findUnique({
-        where: { id }
-    });
-    return user;
+	const user = await prisma.users.findUnique({
+		where: { id }
+	});
+	return user;
 }
 
 export async function insertParticipant(userId:number, chatroomId: number, lastStatus: number) {
-    await prisma.participants.create({ 
-        data: { userId, chatroomId, lastStatus }
-    })
+	await prisma.participants.create({ 
+		data: { userId, chatroomId, lastStatus }
+	});
 }
 
 export async function findByUserId(userId: number, chatroomId: number) {
-    const user = await prisma.participants.findFirst({
-        where: { userId, chatroomId }
-    });
-    return user;
+	const user = await prisma.participants.findFirst({
+		where: { userId, chatroomId }
+	});
+	return user;
 }
 
 export async function findByChatroomId(chatroomId: number) {
-    const participants = await prisma.participants.findMany({
-        where: { chatroomId },
-        orderBy: {
-            user: {
-                username: 'asc'
-            }
-        },
-        select: {
-            user: {
-                select: {
-                    id: true,
-                    username: true
-                }
-            }
-        }
-    });
+	const participants = await prisma.participants.findMany({
+		where: { chatroomId },
+		orderBy: {
+			user: {
+				username: "asc"
+			}
+		},
+		select: {
+			user: {
+				select: {
+					id: true,
+					username: true
+				}
+			}
+		}
+	});
 
-    return participants;
+	return participants;
 }
 
 export async function removeParticipant(userId:number, chatroomId: number) {
-    await prisma.participants.deleteMany({
-        where: { userId, chatroomId }
-    });
+	await prisma.participants.deleteMany({
+		where: { userId, chatroomId }
+	});
 }
 
 export async function update(id: number, lastStatus: number) {
-    await prisma.participants.update({ 
-        where: { id },
-        data: { lastStatus }
-    })
+	await prisma.participants.update({ 
+		where: { id },
+		data: { lastStatus }
+	});
 }
 
 export async function removeByLastStatus(time: number) {
-    const deleted = await prisma.participants.deleteMany({
-        where: { lastStatus: { lte: time } }
-    });
-    return deleted;
+	const deleted = await prisma.participants.deleteMany({
+		where: { lastStatus: { lte: time } }
+	});
+	return deleted;
 }

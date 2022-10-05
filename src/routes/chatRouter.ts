@@ -7,7 +7,7 @@ import chatSchema from "../schemas/chatSchema";
 const router = Router();
 
 router.use(validateToken);
-router.post('/chats/create/:categoryId', validateSchema(chatSchema), createChat);
-router.get('/chats/:categoryId', getChats);
+router.post("/chats/create/:categoryId", validateSchema(chatSchema), createChat);
+router.get("/chats/:categoryId", getChats);
 
 export default router;
