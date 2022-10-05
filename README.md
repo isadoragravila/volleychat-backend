@@ -94,7 +94,65 @@ Está acontecendo um jogo neste momento? Crie uma sala e ou entre em uma para co
     ]
     ```
     - **StatusCodes**:
-        - 200: sucesso
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token).
+
+
+- #### Rota: POST ```/chats/create/:categoryId```
+    - **Função**: Criação de salas de bate-papo;
+    - **Request:** body no formato:
+    ```json
+        {
+            "title": "Brasil x Itália",
+            "description": "Chat aberto para discussão do jogo Brasil x Itália do mundial"
+        }
+    ```
+    - **Retorno:**
+    ```json
+
+        {
+            "id": 1,
+            "title": "Brasil x Itália",
+            "description": "Chat aberto para discussão do jogo Brasil x Itália do mundial",
+            "private": false,
+            "categoryId": 1,
+            "creatorId": 1,
+            "createdAt": "2022-10-05T20:56:16.871Z",
+            "fromNow": "a few seconds ago"
+        }
+    ```
+    - **StatusCodes**:
+        - 201: sucesso na criação;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou categoria não encontrada;
+        - 422: erro no formato do body.
+
+- #### Rota: GET ```/chats/:categoryId```
+    - **Função**: Busca salas de bate-papo por categoria;
+    - **Retorno:**
+    ```json
+        {
+            "id": 1,
+            "name": "women's volleyball",
+            "chatrooms": [
+                {
+                    "id": 1,
+                    "title": "Brasil x Itália",
+                    "description": "Chat aberto para discussão do jogo Brasil x Itália do mundial",
+                    "private": false,
+                    "categoryId": 1,
+                    "creatorId": 1,
+                    "createdAt": "2022-10-05T20:56:16.871Z",
+                    "fromNow": "a few seconds ago"
+                }
+            ]
+        }
+    ```
+    - **StatusCodes**:
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token).
 
 ***
 ## 🏁 Rodando a aplicação
