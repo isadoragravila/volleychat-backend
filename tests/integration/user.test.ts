@@ -172,6 +172,29 @@ describe('GET /messages/:chatroomId', () => {
         expect(result.body).toBeInstanceOf(Array);
         expect(result.body[0]).toHaveProperty('name');
     });
+
+    it('returns 200 for success and an empty array', async () => {
+        const body = await registerBody();
+        await agent.post('/sign-up').send(body);
+
+        const login = await agent.post('/sign-in').send({
+            username: body.username,
+            password: body.password
+        });
+
+        const token = login.body.token;
+        const categoryId = 1;
+
+        const { id } = await createChat(categoryId, token);
+        
+        await createParticipant(id, token);
+
+        const result = await agent.get(`/participants/${id}`).set('Authorization', `Bearer ${token}`);
+
+        expect(result.status).toBe(200);
+        expect(result.body).toBeInstanceOf(Array);
+        expect(result.body.length).toBe(0);
+    });
 });
 
 describe('PATCH /participants/:chatroomId', () => {
