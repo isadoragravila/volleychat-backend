@@ -1,7 +1,7 @@
 import app from '../../src/index';
 import supertest from 'supertest';
 import { deleteAllData, disconnectPrisma } from '../factories/scenarioFactory';
-import { chatBody, messageBody, registerBody } from '../factories/dataFactory';
+import { messageBody, registerBody } from '../factories/dataFactory';
 import { prisma } from '../../src/databases/database';
 import { createChat, createMessage } from '../factories/createFactory';
 

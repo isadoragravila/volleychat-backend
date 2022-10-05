@@ -36,3 +36,14 @@ export async function createMessage(chatroomId: number, token: string) {
     });
     return createdMessage;
 }
+
+export async function createParticipant(chatroomId: number, token: string) {
+    const userId = await getUserIdFromToken(token);
+    const lastStatus = Date.now() - 10000;
+    
+    const created = await prisma.participants.create({
+        data: { chatroomId, userId, lastStatus }
+    });
+    return created;
+
+}
