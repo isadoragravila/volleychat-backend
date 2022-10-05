@@ -16,3 +16,10 @@ export async function wrongDataBody() {
         password: faker.internet.password(10)
     }
 }
+
+export async function chatBody() {
+    return {
+        title: faker.lorem.words(2),
+        description: faker.lorem.sentences(2)
+    }
+}

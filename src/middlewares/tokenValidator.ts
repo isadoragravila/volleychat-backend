@@ -3,8 +3,7 @@ import jwt from 'jsonwebtoken';
 import * as userService from '../services/userService';
 
 interface IJwtPayload {
-    id: number,
-    image: string
+    id: number
 }
 
 async function validateToken(req: Request, res: Response, next: NextFunction) {
