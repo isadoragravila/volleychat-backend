@@ -23,3 +23,9 @@ export async function chatBody() {
         description: faker.lorem.sentences(2)
     }
 }
+
+export async function messageBody() {
+    return {
+        content: faker.lorem.words(3)
+    }    
+}

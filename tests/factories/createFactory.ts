@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { chatBody } from "./dataFactory";
+import { chatBody, messageBody } from "./dataFactory";
 import { prisma } from "../../src/databases/database";
 
 interface IJwtPayload {
@@ -25,4 +25,14 @@ async function getUserIdFromToken(token: string) {
     } catch (error) {
         throw { code: "unauthorized_error", message: "Invalid token" };
     }
+}
+
+export async function createMessage(chatroomId: number, token: string) {
+    const body = await messageBody();
+    const userId = await getUserIdFromToken(token);
+
+    const createdMessage = await prisma.messages.create({
+        data: { ...body, chatroomId, userId }
+    });
+    return createdMessage;
 }
