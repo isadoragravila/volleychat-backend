@@ -42,3 +42,11 @@ export async function updateStatus(req: Request, res: Response) {
 
 	res.status(200).send(result);
 }
+
+export async function getProfileById(req: Request, res: Response) {
+	const { id } = req.params;
+
+	const result = await userService.getProfileById(Number(id));
+
+	res.status(200).send(result);
+}

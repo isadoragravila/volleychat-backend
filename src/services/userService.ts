@@ -87,3 +87,12 @@ export async function removeByLastStatus() {
 
 	await userRepository.removeByLastStatus(time); 
 }
+
+export async function getProfileById(id: number) {
+	const user = await userRepository.findById(id);
+	if (!user) throw { code: "notfound_error", message: "User not found" };
+
+	const userData = { id: user.id, username: user.username, image: user.image, bio: user.bio };
+
+	return userData;
+}
