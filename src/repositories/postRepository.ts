@@ -13,7 +13,8 @@ export async function findById(userId: number) {
 		include: {
 			chatroom: {
 				select: {
-					title: true
+					title: true,
+					categoryId: true
 				}
 			},
 			user: {
