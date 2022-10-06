@@ -12,7 +12,12 @@ export async function getPosts(id: number) {
 
 	const posts = result.map(item => {
 		return {
-			...item,
+			id: item.id,
+			userId: item.userId,
+			username: item.user.username,
+			chatroomId: item.chatroomId,
+			chatroom: item.chatroom.title,
+			type: item.type,
 			fromNow: dayjs(item.createdAt).fromNow()
 		};
 	});
