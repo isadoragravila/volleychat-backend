@@ -1,4 +1,4 @@
-import  { Users, Chatrooms } from "@prisma/client";
+import  { Chatrooms } from "@prisma/client";
 
 export type IChatData = Omit<Chatrooms, "id" | "createdAt" | "private">;
 
