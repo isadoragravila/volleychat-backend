@@ -6,3 +6,12 @@ export async function insert(postData: IPostData) {
 		data: postData
 	});
 }
+
+export async function findById(userId: number) {
+	return await prisma.posts.findMany({
+		where: { userId },
+		orderBy: {
+			createdAt: "desc"
+		}
+	});
+}
