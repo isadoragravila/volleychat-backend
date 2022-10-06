@@ -17,6 +17,7 @@ export async function getPosts(id: number) {
 			username: item.user.username,
 			chatroomId: item.chatroomId,
 			chatroom: item.chatroom.title,
+			categoryId: item.chatroom.categoryId,
 			type: item.type,
 			fromNow: dayjs(item.createdAt).fromNow()
 		};
