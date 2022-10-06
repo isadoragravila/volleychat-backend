@@ -37,7 +37,7 @@ export async function loginUser(username: string, password: string) {
 
 	const token = generateToken(user.id);
 
-	return { token };
+	return { userId: user.id, token };
 }
 
 async function checkUsernameAndPassword(username: string, password: string) {
