@@ -1,6 +1,7 @@
 import * as chatRepository from "../repositories/chatRepository";
 import * as categoryRepository from "../repositories/categoryRepository";
 import * as postRepository from "../repositories/postRepository";
+import * as userRepository from "../repositories/userRepository";
 import { IChatData } from "../types/chatTypes";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -42,4 +43,17 @@ export async function getChats(categoryId: number) {
 	});
 
 	return { ...result, chatrooms: chats };
+}
+
+export async function getChatsByCreatorId(creatorId: number) {    
+	await checkUser(creatorId);
+
+	const result = await chatRepository.findByCreatorId(creatorId);
+
+	return result;
+}
+
+export async function checkUser(id: number) {
+	const user = await userRepository.findById(id);
+	if (!user) throw { code: "notfound_error", message: "User not found" };
 }
