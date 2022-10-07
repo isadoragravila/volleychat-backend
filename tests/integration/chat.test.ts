@@ -79,6 +79,30 @@ describe("GET /chats/:categoryId", () => {
 	});
 });
 
+describe("GET /chats/creator/:creatorId", () => {
+	it("returns 200 for success and an array as the response data", async () => {
+		const body = await registerBody();
+		await agent.post("/sign-up").send(body);
+
+		const login = await agent.post("/sign-in").send({
+			username: body.username,
+			password: body.password
+		});
+
+		const token = login.body.token;
+		const userId = login.body.userId;
+		const categoryId = 1;
+
+		const chat = await createChat(categoryId, token);
+
+		const result = await agent.get(`/chats/creator/${userId}`).set("Authorization", `Bearer ${token}`);
+
+		expect(result.status).toBe(200);
+		expect(result.body[0]).toHaveProperty("title", chat.title);
+		expect(result.body).toBeInstanceOf(Array);
+	});
+});
+
 afterAll(async () => {
 	await disconnectPrisma();
 });
