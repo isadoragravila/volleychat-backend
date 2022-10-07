@@ -58,6 +58,7 @@ Está acontecendo um jogo neste momento? Crie uma sala e ou entre em uma para co
     - **Retorno:**
     ```json
     {
+        "userId": 1,
         "token": "$token" //token gerado por jwt
     }
     ```
@@ -101,7 +102,7 @@ Todas as rotas devem enviar um token de autenticação no formato:
         - 404: usuário não encontrado (verificação do token).
 
 - #### Rota: GET ```/profile```
-    - **Função**: Envia informações de perfil do usuário;
+    - **Função**: Envia informações de perfil do usuário logado;
     - **Retorno:**
     ```json
     {
@@ -116,6 +117,22 @@ Todas as rotas devem enviar um token de autenticação no formato:
         - 200: sucesso;
         - 401: token inválido;
         - 404: usuário não encontrado (verificação do token).
+
+- #### Rota: GET ```/profile/:id```
+    - **Função**: Envia informações de perfil por id;
+    - **Retorno:**
+    ```json
+    {
+        "id": 1,
+        "username": "mariasilva", 
+        "image": "https://thumbs.dreamstime.com/b/%C3%ADcone-no-estilo-liso-do-usu%C3%A1rio-da-pessoa-para-site-ilustra%C3%A7%C3%A3o-vetor-129831161.jpg",
+        "bio": "descrição sobre o usuário" 
+    }
+    ```
+    - **StatusCodes**:
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou do id informado via params.
 
 
 - #### Rota: POST ```/chats/create/:categoryId```
@@ -137,8 +154,7 @@ Todas as rotas devem enviar um token de autenticação no formato:
             "private": false,
             "categoryId": 1,
             "creatorId": 1,
-            "createdAt": "2022-10-05T20:56:16.871Z",
-            "fromNow": "a few seconds ago"
+            "createdAt": "2022-10-05T20:56:16.871Z"
         }
     ```
     - **StatusCodes**:
@@ -171,7 +187,32 @@ Todas as rotas devem enviar um token de autenticação no formato:
     - **StatusCodes**:
         - 200: sucesso;
         - 401: token inválido;
-        - 404: usuário não encontrado (verificação do token)ou categoria não encontrada.
+        - 404: usuário não encontrado (verificação do token) ou categoria não encontrada.
+    - **OBS**: executa checagem de status das salas de bate-papo, removendo das salas usuários que não atualizaram seus status.
+
+- #### Rota: GET ```/chats/creator/:creatorId```
+    - **Função**: Busca salas de bate-papo por criador em ordem descendente de data de criação;
+    - **Retorno:**
+    ```json
+        [
+            {
+                "id": 1,
+                "title": "Brasil x Itália",
+                "description": "Chat aberto para discussão do jogo Brasil x Itália do mundial",
+                "private": false,
+                "categoryId": 1,
+                "creatorId": 1,
+                "createdAt": "2022-10-05T20:56:16.871Z",
+                "category": {
+                    "name": "women's volleyball"
+                }
+            }
+        ]
+    ```
+    - **StatusCodes**:
+        - 200: sucesso;
+        - 401: token inválido;
+        - 404: usuário não encontrado (verificação do token) ou do id informado via params;
     - **OBS**: executa checagem de status das salas de bate-papo, removendo das salas usuários que não atualizaram seus status.
 
 - #### Rota: POST ```/messages/:chatroomId```
@@ -269,7 +310,7 @@ Todas as rotas devem enviar um token de autenticação no formato:
                 "id": 1,
                 "name": "mariasilva"
             },
-                        {
+            {
                 "id": 2,
                 "name": "joaosouza"
             }
@@ -312,14 +353,14 @@ NODE_ENV= "prod" ou "test"
 Depois, dentro da pasta, rode o seguinte comando para migrar o banco de dados:
 
 ```
-npx prisma migrate dev && db seed
+npm run prisma && npm run seed
 ```
 
 Finalizado o processo, para inicializar o servidor, rode:
 ```
 npm run dev
 ```
-ou, para ambiente de testes
+ou, para ambiente de testes:
 ```
 npm run dev:test
 ```

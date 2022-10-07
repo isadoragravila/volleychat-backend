@@ -10,7 +10,7 @@
     "dev:test": "dotenv -e .env.test nodemon src/server.ts",
     "prisma": "prisma migrate dev",
     "seed": "prisma db seed",
-    "test:integration": "dotenv -e .env.test npm run prisma && dotenv -e .env.test -- jest tests/integration -i",
+    "test:integration": "dotenv -e .env.test npm run prisma && dotenv -e .env.test npm run seed && dotenv -e .env.test -- jest tests/integration -i",
     "test:unit": "dotenv -e .env.test -- jest tests/unit -i --coverage",
     "test": "dotenv -e .env.test -- jest tests/integration -i"
   },

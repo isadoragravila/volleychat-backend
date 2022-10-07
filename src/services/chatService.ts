@@ -39,6 +39,8 @@ export async function getChats(categoryId: number) {
 }
 
 export async function getChatsByCreatorId(creatorId: number) {    
+	await removeByLastStatus();
+      
 	await checkUser(creatorId);
 
 	const result = await chatRepository.findByCreatorId(creatorId);
