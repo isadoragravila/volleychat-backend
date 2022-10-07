@@ -1,7 +1,6 @@
 import { IProfileData } from "../types/authTypes";
 import * as userRepository from "../repositories/userRepository";
 import * as chatRepository from "../repositories/chatRepository";
-import * as postRepository from "../repositories/postRepository";
 
 export async function findUserById(id: number) {
 	const existingUser = await userRepository.findById(id);
@@ -25,12 +24,6 @@ export async function enterChat(userId: number, chatroomId: number) {
 	const lastStatus = Date.now();
 
 	await userRepository.insertParticipant(userId, chatroomId, lastStatus);
-
-	await postRepository.insert({
-		userId: userId,
-		chatroomId: chatroomId,
-		type: "entered"
-	});
 
 	return "Entered chat";
 }

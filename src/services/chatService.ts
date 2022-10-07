@@ -1,6 +1,5 @@
 import * as chatRepository from "../repositories/chatRepository";
 import * as categoryRepository from "../repositories/categoryRepository";
-import * as postRepository from "../repositories/postRepository";
 import * as userRepository from "../repositories/userRepository";
 import { IChatData } from "../types/chatTypes";
 import dayjs from "dayjs";
@@ -13,12 +12,6 @@ export async function createChat(chatData: IChatData) {
 	await checkCategory(chatData.categoryId);
 
 	const chat = await chatRepository.insert(chatData);
-
-	await postRepository.insert({
-		userId: chat.creatorId,
-		chatroomId: chat.id,
-		type: "created"
-	});
 
 	return chat;
 }
