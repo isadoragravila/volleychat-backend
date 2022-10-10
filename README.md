@@ -1,5 +1,9 @@
 # <p align = "center"> VolleyChat back-end </p>
 
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/102394075/194929187-4a1b3fde-336a-42d8-a741-3d701b625ee5.png"/>
+</p>
+
 <p align = "center">
    <img src="https://img.shields.io/badge/author-isadoragravila-4dae71?style=flat-square" />
    <img src="https://img.shields.io/github/languages/count/isadoragravila/volleychat-backend?color=4dae71&style=flat-square" />
@@ -367,7 +371,7 @@ npm run dev:test
 
 ***
 
-### **Rodando os Testes**
+## **Rodando os Testes**
 
 :stop_sign: Certifique-se de utilizar um arquivo .env.test e um banco de dados de testes para não comprometer o seu banco de dados original
 
