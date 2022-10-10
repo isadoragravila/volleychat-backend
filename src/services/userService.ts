@@ -19,7 +19,7 @@ export async function enterChat(userId: number, chatroomId: number) {
 
 	const participant = await checkUserIdIntoChatroom(userId, chatroomId);
 
-	if (participant) throw { code: "conflict_error", message: "User is already a member of this chatroom" };
+	if (participant) throw { code: "conflict_error", message: "Something went wrong, wait a few seconds and try again" };
 
 	const lastStatus = Date.now();
 
@@ -61,7 +61,7 @@ export async function removeParticipant(userId: number, chatroomId: number) {
 
 	const participant = await checkUserIdIntoChatroom(userId, chatroomId);
 
-	if (!participant) throw { code: "notfound_error", message: "User isn't in this chatroom" };
+	if (!participant) throw { code: "notfound_error", message: "Something went wrong!" };
 
 	await userRepository.removeParticipant(userId, chatroomId);
 
@@ -73,7 +73,7 @@ export async function updateStatus(userId: number, chatroomId: number) {
 
 	const participant = await checkUserIdIntoChatroom(userId, chatroomId);
 
-	if (!participant) throw { code: "notfound_error", message: "User isn't in this chatroom" };
+	if (!participant) throw { code: "notfound_error", message: "Something went wrong, so you'll be redirected to the main page." };
 
 	const lastStatus = Date.now();
 
