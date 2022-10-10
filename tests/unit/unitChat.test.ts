@@ -47,7 +47,7 @@ describe("Tests chat creation", () => {
 });
 
 describe("Tests get chats by category", () => {
-	it("Should an object with an array of chatrooms", async () => {
+	it("Should return an object with an array of chatrooms", async () => {
 		const category = await categoryData();
 		const chats = await getChatsData();
 

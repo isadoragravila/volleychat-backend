@@ -365,4 +365,24 @@ ou, para ambiente de testes:
 npm run dev:test
 ```
 
+***
+
+### **Rodando os Testes**
+
 :stop_sign: Certifique-se de utilizar um arquivo .env.test e um banco de dados de testes para não comprometer o seu banco de dados original
+
+### Testes de integração
+
+Para rodar os testes de integração, abra o diretório no terminal e rode o seguinte comando:
+
+```
+npm run test:integration
+```
+
+### Testes unitários
+
+Para rodar os testes unitários, abra o diretório no terminal e rode o seguinte comando:
+
+```
+npm run test:unit
+```
