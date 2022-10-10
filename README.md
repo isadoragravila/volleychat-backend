@@ -329,7 +329,7 @@ Todas as rotas devem enviar um token de autenticação no formato:
 ***
 ## 🏁 Rodando a aplicação
 
-### **Localmente** (ambiente de desenvolvimento)
+### **1. Localmente** (ambiente de desenvolvimento)
 
 Certifique-se que você tenha a última versão estável do [Node.js](https://nodejs.org/en/download/) e [npm](https://www.npmjs.com/) rodando localmente.
 
@@ -367,6 +367,13 @@ npm run dev
 ou, para ambiente de testes:
 ```
 npm run dev:test
+```
+
+### **2. Deploy**
+
+Link do deploy no Heroku :
+```
+https://volleychat.herokuapp.com/
 ```
 
 ***
