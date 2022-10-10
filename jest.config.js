@@ -2,5 +2,17 @@
 module.exports = {
 	preset: "ts-jest",
 	testEnvironment: "node",
-	verbose: true
+	verbose: true,
+	collectCoverage: true,
+	coveragePathIgnorePatterns: [
+		"node_modules",
+		"test-config",
+		"interfaces",
+		"src/repositories",
+		"jestGlobalMocks.ts",
+		"src/server.ts",
+		"src/utils",
+		"src/databases",
+		"tests/factories"
+	]
 };

@@ -33,7 +33,7 @@ export async function getChats(categoryId: number) {
 			...item,
 			fromNow: dayjs(item.createdAt).fromNow()
 		};
-	});
+	}) || [];
 
 	return { ...result, chatrooms: chats };
 }
