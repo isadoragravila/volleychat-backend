@@ -2,6 +2,7 @@ import { IRegisterData } from "../types/authTypes";
 import * as authRepository from "../repositories/authRepository";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { unauthorizedError } from "../errors/unauthorizedError";
 
 export async function registerUser(registerData: IRegisterData) {
 	const { username, email, password } = registerData;
@@ -42,11 +43,12 @@ export async function loginUser(username: string, password: string) {
 
 async function checkUsernameAndPassword(username: string, password: string) {
 	const user = await checkUsername(username);
-	if (!user) throw { code: "unauthorized_error", message: "Wrong username or password!" };
+
+	if (!user) throw unauthorizedError("Wrong username or password!");
 
 	const encryptedPassword = user.password;
 
-	if (!bcrypt.compareSync(password, encryptedPassword)) throw { code: "unauthorized_error", message: "Wrong username or password!" };
+	if (!bcrypt.compareSync(password, encryptedPassword)) throw unauthorizedError("Wrong username or password!");
 
 	return user;
 }

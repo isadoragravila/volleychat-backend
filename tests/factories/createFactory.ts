@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { chatBody, messageBody } from "./dataFactory";
 import { prisma } from "../../src/databases/database";
+import { unauthorizedError } from "../../src/errors/unauthorizedError";
 
 interface IJwtPayload {
     id: number
@@ -23,7 +24,7 @@ async function getUserIdFromToken(token: string) {
 		const { id } = jwt.verify(token, SECRET) as IJwtPayload;
 		return id;
 	} catch (error) {
-		throw { code: "unauthorized_error", message: "Invalid token" };
+		throw unauthorizedError("Invalid token");
 	}
 }
 

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { unauthorizedError } from "../errors/unauthorizedError";
 import * as userService from "../services/userService";
 
 interface IJwtPayload {
@@ -11,7 +12,7 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
 	const token = authorization?.replace("Bearer ", "");
 	const SECRET = process.env.JWT_SECRET || "";
 
-	if (!token) throw { code: "unauthorized_error", message: "Missing token" };
+	if (!token) throw unauthorizedError("Missing token");
 
 	try {
 		const { id } = jwt.verify(token, SECRET) as IJwtPayload;
@@ -24,7 +25,7 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
 		next();
 
 	} catch (error) {
-		throw { code: "unauthorized_error", message: "Invalid token" };
+		throw unauthorizedError("Invalid token");
 	}
 }
 
