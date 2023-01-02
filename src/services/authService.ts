@@ -3,15 +3,16 @@ import * as authRepository from "../repositories/authRepository";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { unauthorizedError } from "../errors/unauthorizedError";
+import { conflictError } from "../errors/conflictError";
 
 export async function registerUser(registerData: IRegisterData) {
 	const { username, email, password } = registerData;
 
 	const existingEmail = await checkEmail(email);
-	if (existingEmail) throw { code: "conflict_error", message: "This email is already in use, please select another one" };
+	if (existingEmail) throw conflictError("This email is already in use, please select another one");
 
 	const existingUsername = await checkUsername(username);
-	if (existingUsername) throw { code: "conflict_error", message: "This username is already in use, please select another one" };
+	if (existingUsername) throw conflictError("This username is already in use, please select another one");
 
 	const encryptedPassword = encryptPassword(password);
 
