@@ -3,6 +3,7 @@ import * as chatRepository from "../../src/repositories/chatRepository";
 import * as categoryRepository from "../../src/repositories/categoryRepository";
 import { chatBody } from "../factories/dataFactory";
 import { categoryData, chatData, getChatsData } from "../factories/mockDataFactory";
+import { notFoundError } from "../../src/errors/notFoundError";
 
 beforeEach(() => {
 	jest.resetAllMocks();
@@ -39,7 +40,7 @@ describe("Tests chat creation", () => {
 
 		const result = chatService.createChat({ ...chat, categoryId, creatorId});
 
-		await expect(result).rejects.toEqual({ code: "notfound_error", message: "Category not found" });
+		await expect(result).rejects.toEqual(notFoundError("Category not found"));
 
 		expect(categoryRepository.findById).toBeCalledTimes(1);
 		expect(chatRepository.insert).not.toBeCalled();

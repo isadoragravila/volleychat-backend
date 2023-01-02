@@ -5,6 +5,7 @@ import { IChatData } from "../types/chatTypes";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { removeByLastStatus } from "./userService";
+import { notFoundError } from "../errors/notFoundError";
 
 dayjs.extend(relativeTime);
 
@@ -18,7 +19,7 @@ export async function createChat(chatData: IChatData) {
 
 export async function checkCategory(id: number) {
 	const category = await categoryRepository.findById(id);
-	if (!category) throw { code: "notfound_error", message: "Category not found" };
+	if (!category) throw notFoundError("Category not found");
 }
 
 export async function getChats(categoryId: number) {
@@ -50,5 +51,5 @@ export async function getChatsByCreatorId(creatorId: number) {
 
 export async function checkUser(id: number) {
 	const user = await userRepository.findById(id);
-	if (!user) throw { code: "notfound_error", message: "User not found" };
+	if (!user) throw notFoundError("User not found");
 }

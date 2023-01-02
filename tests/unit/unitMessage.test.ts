@@ -3,6 +3,7 @@ import * as chatRepository from "../../src/repositories/chatRepository";
 import * as messageRepository from "../../src/repositories/messageRepository";
 import { messageBody } from "../factories/dataFactory";
 import { chatData, getMessagesData, messageData } from "../factories/mockDataFactory";
+import { notFoundError } from "../../src/errors/notFoundError";
 
 beforeEach(() => {
 	jest.resetAllMocks();
@@ -38,7 +39,7 @@ describe("Tests message creation", () => {
 
 		const result = messageService.createMessage({ ...message, chatroomId, userId});
 
-		await expect(result).rejects.toEqual({ code: "notfound_error", message: "Chatroom not found" });
+		await expect(result).rejects.toEqual(notFoundError("Chatroom not found"));
 
 		expect(chatRepository.findById).toBeCalledTimes(1);
 		expect(messageRepository.insert).not.toBeCalled();

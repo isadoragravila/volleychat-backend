@@ -1,10 +1,11 @@
 import { IProfileData } from "../types/authTypes";
 import * as userRepository from "../repositories/userRepository";
 import * as chatRepository from "../repositories/chatRepository";
+import { notFoundError } from "../errors/notFoundError";
 
 export async function findUserById(id: number) {
 	const existingUser = await userRepository.findById(id);
-	if (!existingUser) throw { code: "notfound_error", message: "User not found" };
+	if (!existingUser) throw notFoundError("User not found");
 	const user: IProfileData = { ...existingUser };
 
 	delete user.password;
@@ -19,7 +20,7 @@ export async function enterChat(userId: number, chatroomId: number) {
 
 	const participant = await checkUserIdIntoChatroom(userId, chatroomId);
 
-	if (participant) throw { code: "conflict_error", message: "Something went wrong, wait a few seconds and try again" };
+	if (participant) throw notFoundError("Something went wrong, wait a few seconds and try again");
 
 	const lastStatus = Date.now();
 
@@ -30,7 +31,7 @@ export async function enterChat(userId: number, chatroomId: number) {
 
 async function checkChatroomId(id: number) {
 	const chatroom = await chatRepository.findById(id);
-	if (!chatroom) throw { code: "notfound_error", message: "Chatroom not found" };
+	if (!chatroom) throw notFoundError("Chatroom not found");
 }
 
 async function checkUserIdIntoChatroom(userId: number, chatroomId: number) {
@@ -61,7 +62,7 @@ export async function removeParticipant(userId: number, chatroomId: number) {
 
 	const participant = await checkUserIdIntoChatroom(userId, chatroomId);
 
-	if (!participant) throw { code: "notfound_error", message: "Something went wrong!" };
+	if (!participant) throw notFoundError("Something went wrong!");
 
 	await userRepository.removeParticipant(userId, chatroomId);
 
@@ -73,7 +74,7 @@ export async function updateStatus(userId: number, chatroomId: number) {
 
 	const participant = await checkUserIdIntoChatroom(userId, chatroomId);
 
-	if (!participant) throw { code: "notfound_error", message: "Something went wrong, so you'll be redirected to the main page." };
+	if (!participant) throw notFoundError("Something went wrong, so you'll be redirected to the main page.");
 
 	const lastStatus = Date.now();
 
@@ -90,7 +91,7 @@ export async function removeByLastStatus() {
 
 export async function getProfileById(id: number) {
 	const user = await userRepository.findById(id);
-	if (!user) throw { code: "notfound_error", message: "User not found" };
+	if (!user) throw notFoundError("User not found");
 
 	const userData = { id: user.id, username: user.username, image: user.image, bio: user.bio };
 
