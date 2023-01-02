@@ -1,6 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-export default function errorHandler (error: any, req: Request, res: Response, next: NextFunction) {
+export type ApplicationError = {
+  code: string;
+  message: string | string[];
+};
+
+export default function errorHandler (error: ApplicationError, req: Request, res: Response, next: NextFunction) {
 	if (error.code === "schema_error") {
 		return res.status(422).send(error.message);
 	}
