@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { unauthorizedError } from "../errors/unauthorizedError";
 import { conflictError } from "../errors/conflictError";
+import exclude from "../utils/exclude";
+import { Users } from "@prisma/client";
 
 export async function registerUser(registerData: IRegisterData) {
 	const { username, email, password } = registerData;
@@ -35,11 +37,13 @@ function encryptPassword(password: string) {
 }
 
 export async function loginUser(username: string, password: string) {
-	const user = await checkUsernameAndPassword(username, password);
+	const user: Users = await checkUsernameAndPassword(username, password);
 
 	const token = generateToken(user.id);
 
-	return { userId: user.id, token };
+	const userData = exclude(user, "email", "password", "id");
+
+	return { ...userData, userId: user.id, token };
 }
 
 async function checkUsernameAndPassword(username: string, password: string) {
